@@ -5,7 +5,7 @@
         <meta name="description" content="Demo page for jQuery cron builder plugin">
         <meta name="author" content="Julia Cai">
         <title> jQuery Cron Builder</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+        <link rel="stylesheet" href="src/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="src/jquery-cron-quartz.css">
         <style type="text/css">
             h1 {
@@ -41,12 +41,12 @@
             }
         </style>
 
-        <script type="text/javascript" src="//code.jquery.com/jquery-1.12.0.min.js"></script>
-        <script type="text/javascript" src="src/jquery-cron-quartz.js"></script>
+        <script type="text/javascript" src="src/jquery-1.12.0.min.js"></script>
+        <script type="text/javascript" src="src/jquery-cron-quartz-zh_CN.js"></script>
         <script type="text/javascript">
             $(function() {
                $('#example1-cron').cronBuilder({
-                   selectorLabel: "Select time period:  ",
+                   selectorLabel: "选择周期:  ",
                    onChange: function(expression) {
                        $('#example1-result').text(expression);
                    }
