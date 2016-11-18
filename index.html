@@ -6,7 +6,7 @@
         <meta name="author" content="Julia Cai">
         <title> jQuery Cron Builder</title>
         <link rel="stylesheet" href="src/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="src/jquery-cron-quartz.css">
+        <link rel="stylesheet" type="text/css" href="src/jquery-cron.css">
         <style type="text/css">
             h1 {
                 color: #1da9cc !important;
@@ -42,13 +42,12 @@
         </style>
 
         <script type="text/javascript" src="src/jquery-1.12.0.min.js"></script>
-        <script type="text/javascript" src="src/jquery-cron-quartz-zh_CN.js"></script>
+        <script type="text/javascript" src="src/jquery-cron-zh_CN.js"></script>
         <script type="text/javascript">
             $(function() {
                $('#example1-cron').cronBuilder({
-                   selectorLabel: "选择周期:  ",
-                   onChange: function(expression) {
-                       $('#example1-result').text(expression);
+                   onChange: function(expression, text) {
+                       $('#example1-result').text(expression + "   " + text);
                    }
                });
                
