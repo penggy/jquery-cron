@@ -6,7 +6,7 @@
     
     var cronInputs={
         period: '<div class="cron-select-period"><label></label><select class="cron-period-select"></select></div>',
-        startTime: '<div class="cron-input cron-start-time">时间 <select class="cron-clock-hour"></select>:<select class="cron-clock-minute"></select></div>',
+        startTime: '<div class="cron-input cron-start-time"><select class="cron-clock-hour"></select>时<select class="cron-clock-minute"></select>分</div>',
         container: '<div class="cron-input"></div>',
         seconds : {
             tag: 'cron-seconds',
@@ -22,15 +22,14 @@
         },
         daily: {
             tag: 'cron-daily',
-            inputs: [ '<p><input type="radio" name="dailyType" value="every"> 每 <select class="cron-daily-select"></select> 天</p>',
-                '<p><input type="radio" name="dailyType" value="clock"> 每周工作日</p>']
+            inputs: [ '<p>每 <select class="cron-daily-select"></select> 天</p>']
         },
         weekly: {
             tag: 'cron-weekly',
-            inputs: [ '<p><input type="checkbox" name="dayOfWeekMon"> 一  <input type="checkbox" name="dayOfWeekTue"> 二  '+ 
-                '<input type="checkbox" name="dayOfWeekWed"> 三  <input type="checkbox" name="dayOfWeekThu"> 四</p>', 
-                '<p><input type="checkbox" name="dayOfWeekFri"> 五  <input type="checkbox" name="dayOfWeekSat"> 六  '+ 
-                '<input type="checkbox" name="dayOfWeekSun"> 日</p>' ]
+            inputs: [ '<p><input type="checkbox" name="dayOfWeekMon">一<input type="checkbox" name="dayOfWeekTue">二'+ 
+                '<input type="checkbox" name="dayOfWeekWed">三<input type="checkbox" name="dayOfWeekThu">四' +
+                '<input type="checkbox" name="dayOfWeekFri">五<input type="checkbox" name="dayOfWeekSat">六'+ 
+                '<input type="checkbox" name="dayOfWeekSun">日</p>' ]
         },
         monthly: {
             tag: 'cron-monthly',
@@ -232,62 +231,50 @@
                     break;
                 case '时':
                     var $selector=base.$el.find("div.cron-hourly");
-                    if($selector.find("input[name=hourlyType][value=every]").is(":checked")){
-                        text += "每";
-                        text += $selector.find("select.cron-hourly-select option:selected").text();
-                        text += "小时";
-                    } else {
-                        text += "每天";
-                        text += $selector.find("select.cron-hourly-hour option:selected").text();
-                        text += ":";
-                        text += $selector.find("select.cron-hourly-minute option:selected").text();
-                    }
+                    text += "每";
+                    text += $selector.find("select.cron-hourly-select option:selected").text();
+                    text += "小时";
                     break;
                 case '天':
                     var $selector=base.$el.find("div.cron-daily");
-                    if($selector.find("input[name=dailyType][value=every]").is(":checked")){
-                        text += "每";
-                        text += $selector.find("select.cron-daily-select option:selected").text();
-                        text += "天 时间";
-                        text += base.$el.find("select.cron-clock-hour option:selected").text();
-                        text += ":";
-                        text += base.$el.find("select.cron-clock-minute option:selected").text();
-                        
-                    } else {
-                        text += "每周工作日 时间";
-                        text += base.$el.find("select.cron-clock-hour option:selected").text();
-                        text += ":";
-                        text += base.$el.find("select.cron-clock-minute option:selected").text();
-                    }
+                    text += "每";
+                    text += $selector.find("select.cron-daily-select option:selected").text();
+                    text += "天";
+                    text += base.$el.find("select.cron-clock-hour option:selected").text();
+                    text += "时";
+                    text += base.$el.find("select.cron-clock-minute option:selected").text();
+                    text += "分";
                     break;
                 case '周':
                     var $selector=base.$el.find("div.cron-weekly");
                     var ndow=[];
                     if($selector.find("input[name=dayOfWeekMon]").is(":checked"))
-                        ndow.push("周一");
+                        ndow.push("一");
                     if($selector.find("input[name=dayOfWeekTue]").is(":checked"))
-                        ndow.push("周二");
+                        ndow.push("二");
                     if($selector.find("input[name=dayOfWeekWed]").is(":checked"))
-                        ndow.push("周三");
+                        ndow.push("三");
                     if($selector.find("input[name=dayOfWeekThu]").is(":checked"))
-                        ndow.push("周四");
+                        ndow.push("四");
                     if($selector.find("input[name=dayOfWeekFri]").is(":checked"))
-                        ndow.push("周五");
+                        ndow.push("五");
                     if($selector.find("input[name=dayOfWeekSat]").is(":checked"))
-                        ndow.push("周六");
+                        ndow.push("六");
                     if($selector.find("input[name=dayOfWeekSun]").is(":checked"))
-                        ndow.push("周日");
+                        ndow.push("日");
                     if(ndow.length < 7 && ndow.length > 0) {
+                        text += "每周";
                         text += ndow.join(",");
-                        text += " 时间";
                         text += base.$el.find("select.cron-clock-hour option:selected").text();
-                        text += ":";
+                        text += "时";
                         text += base.$el.find("select.cron-clock-minute option:selected").text();
+                        text += "分";
                     }else {
                         text += "每天";
                         text += base.$el.find("select.cron-clock-hour option:selected").text();
-                        text += ":";
+                        text += "时";
                         text += base.$el.find("select.cron-clock-minute option:selected").text();
+                        text += "分";
                     }
                     break;
                 case '月':
@@ -296,10 +283,11 @@
                     text += $selector.find("select.cron-monthly-month option:selected").text();
                     text += "月";
                     text += $selector.find("select.cron-monthly-day option:selected").text();
-                    text += "日 时间";
+                    text += "日";
                     text += base.$el.find("select.cron-clock-hour option:selected").text();
-                    text += ":";
-                    text += base.$el.find("select.cron-clock-minute option:selected").text();                    
+                    text += "时";
+                    text += base.$el.find("select.cron-clock-minute option:selected").text();
+                    text += "分";                    
                     break;                    
             }
             return text;
@@ -339,6 +327,67 @@
                 base.$el.find("select.cron-hourly-select").val(crons[2].split('/')[1]).trigger("change");
                 return;
             }
+            if(crons[3] == "*"){
+                base.$el.find("select.cron-period-select").val('天').trigger("change");
+                base.$el.find("select.cron-daily-select").val('1').trigger("change");
+                base.$el.find("select.cron-clock-hour").val(crons[2]).trigger("change");
+                base.$el.find("select.cron-clock-minute").val(crons[1]).trigger("change");
+                return;
+            }
+            if(crons[3].split('/').length == 2){
+                base.$el.find("select.cron-period-select").val('天').trigger("change");
+                base.$el.find("select.cron-daily-select").val(crons[3].split('/')[1]).trigger("change");
+                base.$el.find("select.cron-clock-hour").val(crons[2]).trigger("change");
+                base.$el.find("select.cron-clock-minute").val(crons[1]).trigger("change");
+                return;
+            }
+            if(crons[3] == "?" && crons[5] == "*"){
+                base.$el.find("select.cron-period-select").val('周').trigger("change");
+                base.$el.find(".cron-weekly p :checkbox").prop("checked",false);
+                base.$el.find("select.cron-clock-hour").val(crons[2]).trigger("change");
+                base.$el.find("select.cron-clock-minute").val(crons[1]).trigger("change");
+                return;
+            }
+            if(crons[3] == "?" && crons[5] != "*"){
+                base.$el.find("select.cron-period-select").val('周').trigger("change");
+                base.$el.find(".cron-weekly p :checkbox").prop("checked",false);
+                var days = crons[5].split(',');
+                for(var i in days){
+                    if(days[i] == '1')
+                        base.$el.find(".cron-weekly input[name=dayOfWeekMon]").prop("checked",true);
+                    if(days[i] == '2')
+                        base.$el.find(".cron-weekly input[name=dayOfWeekTue]").prop("checked",true);
+                    if(days[i] == '3')
+                        base.$el.find(".cron-weekly input[name=dayOfWeekWed]").prop("checked",true);
+                    if(days[i] == '4')
+                        base.$el.find(".cron-weekly input[name=dayOfWeekThu]").prop("checked",true);
+                    if(days[i] == '5')
+                        base.$el.find(".cron-weekly input[name=dayOfWeekFri]").prop("checked",true);
+                    if(days[i] == '6')
+                        base.$el.find(".cron-weekly input[name=dayOfWeekSat]").prop("checked",true);
+                    if(days[i] == '7')
+                        base.$el.find(".cron-weekly input[name=dayOfWeekSun]").prop("checked",true);
+                }
+                base.$el.find("select.cron-clock-hour").val(crons[2]).trigger("change");
+                base.$el.find("select.cron-clock-minute").val(crons[1]).trigger("change");
+                return;
+            }
+            if(crons[4] == "*"){
+                base.$el.find("select.cron-period-select").val('月').trigger("change");
+                base.$el.find("select.cron-monthly-month").val('1').trigger("change");
+                base.$el.find("select.cron-monthly-day").val(crons[3]).trigger("change");
+                base.$el.find("select.cron-clock-hour").val(crons[2]).trigger("change");
+                base.$el.find("select.cron-clock-minute").val(crons[1]).trigger("change");                
+                return;
+            }
+            if(crons[4].split('/').length == 2){
+                base.$el.find("select.cron-period-select").val('月').trigger("change");
+                base.$el.find("select.cron-monthly-month").val(crons[4].split('/')[1]).trigger("change");
+                base.$el.find("select.cron-monthly-day").val(crons[3]).trigger("change");
+                base.$el.find("select.cron-clock-hour").val(crons[2]).trigger("change");
+                base.$el.find("select.cron-clock-minute").val(crons[1]).trigger("change");                
+                return;
+            }
         }
         
         base.getExpression = function() {
@@ -369,26 +418,16 @@
                     
                 case '时':
                     var $selector=base.$el.find("div.cron-hourly");
-                    if($selector.find("input[name=hourlyType][value=every]").is(":checked")){
-                        min=0;
-                        hour="*";
-                        var nhour=$selector.find("select.cron-hourly-select").val();
-                    	if(nhour > 1) hour ="0/"+nhour;
-                    } else {
-                        min=$selector.find("select.cron-hourly-minute").val();
-                        hour=$selector.find("select.cron-hourly-hour").val();
-                    }
+                    min=0;
+                    hour="*";
+                    var nhour=$selector.find("select.cron-hourly-select").val();
+                    if(nhour > 1) hour ="0/"+nhour;
                     break;
     
                 case '天':
                     var $selector=base.$el.find("div.cron-daily");
-                    if($selector.find("input[name=dailyType][value=every]").is(":checked")){
-                        var ndom=$selector.find("select.cron-daily-select").val();
-                        if(ndom > 1) dom ="1/"+ndom;
-                    } else {
-                        dom="?";
-                        dow="1-5";
-                    }
+                    var ndom=$selector.find("select.cron-daily-select").val();
+                    if(ndom > 1) dom ="1/"+ndom;
                     break;
     
                 case '周':

@@ -1,9 +1,11 @@
 .cron-select-period {
     padding: 5px 5px 0px 5px;
+    display: inline-block;
 }
 
 .cron-input {
     padding: 5px 5px 0px 5px;
+    display: inline-block;
 }
 
 .cron-select-period select,
