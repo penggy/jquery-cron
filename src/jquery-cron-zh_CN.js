@@ -347,11 +347,13 @@
                 base.$el.find("select.cron-clock-minute").val(crons[1]).trigger("change");
                 return;
             }
-            if(crons[3] == "?" && crons[5] != "*"){
+            if(crons[3] == "*" && crons[5] != "*"){
                 base.$el.find("select.cron-period-select").val('周').trigger("change");
                 base.$el.find(".cron-weekly p :checkbox").prop("checked",false);
                 var days = crons[5].split(',');
                 for(var i in days){
+                    if(days[i] == '0')
+                        base.$el.find(".cron-weekly input[name=dayOfWeekSun]").prop("checked",true);
                     if(days[i] == '1')
                         base.$el.find(".cron-weekly input[name=dayOfWeekMon]").prop("checked",true);
                     if(days[i] == '2')
@@ -364,8 +366,6 @@
                         base.$el.find(".cron-weekly input[name=dayOfWeekFri]").prop("checked",true);
                     if(days[i] == '6')
                         base.$el.find(".cron-weekly input[name=dayOfWeekSat]").prop("checked",true);
-                    if(days[i] == '7')
-                        base.$el.find(".cron-weekly input[name=dayOfWeekSun]").prop("checked",true);
                 }
                 base.$el.find("select.cron-clock-hour").val(crons[2]).trigger("change");
                 base.$el.find("select.cron-clock-minute").val(crons[1]).trigger("change");
@@ -401,7 +401,7 @@
             //var b = c.data("block");
             var sec = 0; // ignoring seconds by default
             var year = "*"; // every year by default
-            var dow = "?";
+            var dow = "*";
             var month ="*", dom = "*";
             var min=base.$el.find("select.cron-clock-minute").val();
             var hour=base.$el.find("select.cron-clock-hour").val();
@@ -410,7 +410,7 @@
                 case '秒':
                     var $selector=base.$el.find("div.cron-seconds");
                     var nsec=$selector.find("select.cron-seconds-select").val();
-                	if(nsec > 1) sec ="0/"+nsec;
+                	if(nsec > 1) sec ="*/"+nsec;
                 	else sec="*";
                     min="*";
                 	hour="*";                
@@ -418,7 +418,7 @@
                 case '分':
                     var $selector=base.$el.find("div.cron-minutes");
                     var nmin=$selector.find("select.cron-minutes-select").val();
-                	if(nmin > 1) min ="0/"+nmin;
+                	if(nmin > 1) min ="*/"+nmin;
                 	else min="*";
                 	hour="*";
                     break;
@@ -428,18 +428,20 @@
                     min=0;
                     hour="*";
                     var nhour=$selector.find("select.cron-hourly-select").val();
-                    if(nhour > 1) hour ="0/"+nhour;
+                    if(nhour > 1) hour ="*/"+nhour;
                     break;
     
                 case '天':
                     var $selector=base.$el.find("div.cron-daily");
                     var ndom=$selector.find("select.cron-daily-select").val();
-                    if(ndom > 1) dom ="1/"+ndom;
+                    if(ndom > 1) dom ="*/"+ndom;
                     break;
     
                 case '周':
                     var $selector=base.$el.find("div.cron-weekly");
                     var ndow=[];
+                    if($selector.find("input[name=dayOfWeekSun]").is(":checked"))
+                        ndow.push("0");
                     if($selector.find("input[name=dayOfWeekMon]").is(":checked"))
                         ndow.push("1");
                     if($selector.find("input[name=dayOfWeekTue]").is(":checked"))
@@ -452,10 +454,8 @@
                         ndow.push("5");
                     if($selector.find("input[name=dayOfWeekSat]").is(":checked"))
                         ndow.push("6");
-                    if($selector.find("input[name=dayOfWeekSun]").is(":checked"))
-                        ndow.push("7");
                     dow="*";
-                    dom="?";
+                    dom="*";
                     if(ndow.length < 7 && ndow.length > 0) dow=ndow.join(",");
                     break;
     
@@ -465,15 +465,15 @@
                     month="*";
                     nmonth=$selector.find("select.cron-monthly-month").val();
                     dom=$selector.find("select.cron-monthly-day").val();
-                    dow="?";
-                    if(nmonth > 1) month ="1/"+nmonth;
+                    dow="*";
+                    if(nmonth > 1) month ="*/"+nmonth;
                     break;
     
                 case '年':
                     var $selector=base.$el.find("div.cron-yearly");
                     dom=$selector.find("select.cron-yearly-day").val();
                     month=$selector.find("select.cron-yearly-month").val();
-                    dow="?";
+                    dow="*";
                     break;
     
                 default:
