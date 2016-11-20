@@ -10,19 +10,19 @@
         container: '<div class="cron-input"></div>',
         seconds : {
             tag: 'cron-seconds',
-            inputs: ['<p>每 <select class="cron-seconds-select"></select> 秒</p>']
+            inputs: ['<p>每<select class="cron-seconds-select"></select>秒</p>']
         },
         minutes: {
             tag: 'cron-minutes',
-            inputs: [ '<p>每 <select class="cron-minutes-select"></select> 分钟</p>' ]
+            inputs: [ '<p>每<select class="cron-minutes-select"></select>分钟</p>' ]
         },
         hourly: {
             tag: 'cron-hourly',
-            inputs: [ '<p>每 <select class="cron-hourly-select"></select> 小时</p>']
+            inputs: [ '<p>每<select class="cron-hourly-select"></select>小时</p>']
         },
         daily: {
             tag: 'cron-daily',
-            inputs: [ '<p>每 <select class="cron-daily-select"></select> 天</p>']
+            inputs: [ '<p>每<select class="cron-daily-select"></select>天</p>']
         },
         weekly: {
             tag: 'cron-weekly',
@@ -33,17 +33,15 @@
         },
         monthly: {
             tag: 'cron-monthly',
-            inputs: [ '<p>每 <select class="cron-monthly-month"></select> 月 <select class="cron-monthly-day"></select> 日</p>']
+            inputs: [ '<p>每<select class="cron-monthly-month"></select>月<select class="cron-monthly-day"></select>日</p>']
         },
         yearly: {
             tag: 'cron-yearly',
-            inputs: [ '<p><input type="radio" name="yearlyType" value="byDay"> 每年 <select class="cron-yearly-month"></select> <select class="cron-yearly-day"></select> 日</p>',
-                '<p><input type="radio" name="yearlyType" value="byWeek"> 每年 <select class="cron-yearly-month-by-week"></select> <select class="cron-yearly-nth-day"></select> ' + 
-                '<select class="cron-yearly-day-of-week"></select></p>']
+            inputs: [ '<p>每年<select class="cron-yearly-month"></select>月<select class="cron-yearly-day"></select>日</p>']
         }
     };
 
-    var periodOpts=arrayToOptions(["秒", "分", "时", "天", "周", "月"]);
+    var periodOpts=arrayToOptions(["秒", "分", "时", "天", "周", "月", "年"]);
     var secondOpts=rangeToOptions(1, 60);
     var minuteOpts=rangeToOptions(1, 60);
     var hourOpts=rangeToOptions(1, 24);
@@ -52,8 +50,6 @@
     var minuteClockOpts=rangeToOptions(0, 59, true);
     var hourClockOpts=rangeToOptions(0, 23, true);
     var dayInMonthOpts=rangeToOptions(1, 31);
-    var monthOpts=arrayToOptions(["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"],
-                                    [1,2,3,4,5,6,7,8,9,10,11,12]);
     var monthNumOpts=rangeToOptions(1, 12);
     var nthWeekOpts=arrayToOptions(["第一个", "第二个", "第三个", "第四个"], [1,2,3,4]);
     var dayOfWeekOpts=arrayToOptions(["星期一","星期二","星期三","星期四","星期五","星期六", "星期天"], ["1","2","3","4","5","6", "7"]);
@@ -97,7 +93,7 @@
             $selector.siblings().find("select option").removeAttr("selected");
             $selector.siblings().find("select option:first").attr("selected", "selected");
             $selector.siblings('div.cron-start-time').show();
-            $selector.siblings('div.cron-start-time').children("select.cron-clock-hour").val('12');
+            //$selector.siblings('div.cron-start-time').children("select.cron-clock-hour").val('12');
             switch(period) {
                 case '秒':
                     $selector.siblings('div.cron-seconds')
@@ -132,8 +128,7 @@
                     break;
                 case '年':
                     var $yearlyEl=$selector.siblings('div.cron-yearly');
-                    $yearlyEl.show()
-                        .find("input[name=yearlyType][value=byDay]").prop('checked', true);
+                    $yearlyEl.show();
                     break;                    
             } 
         }
@@ -170,9 +165,7 @@
             });
 
             addInputElements(base.$el, cronInputs.hourly, function() {
-                base.$el.find("select.cron-hourly-select").append(hourOpts); 
-                base.$el.find("select.cron-hourly-hour").append(hourClockOpts);
-                base.$el.find("select.cron-hourly-minute").append(minuteClockOpts);
+                base.$el.find("select.cron-hourly-select").append(hourOpts);
             });
             
             addInputElements(base.$el, cronInputs.daily, function() {
@@ -184,17 +177,11 @@
             addInputElements(base.$el, cronInputs.monthly, function() {
                 base.$el.find("select.cron-monthly-day").append(dayInMonthOpts); 
                 base.$el.find("select.cron-monthly-month").append(monthNumOpts); 
-                base.$el.find("select.cron-monthly-nth-day").append(nthWeekOpts); 
-                base.$el.find("select.cron-monthly-day-of-week").append(dayOfWeekOpts); 
-                base.$el.find("select.cron-monthly-month-by-week").append(monthNumOpts);
             });
 
             addInputElements(base.$el, cronInputs.yearly, function() {
-                base.$el.find("select.cron-yearly-month").append(monthOpts); 
-                base.$el.find("select.cron-yearly-day").append(dayInMonthOpts); 
-                base.$el.find("select.cron-yearly-nth-day").append(nthWeekOpts); 
-                base.$el.find("select.cron-yearly-day-of-week").append(dayOfWeekOpts); 
-                base.$el.find("select.cron-yearly-month-by-week").append(monthOpts); 
+                base.$el.find("select.cron-yearly-month").append(monthNumOpts); 
+                base.$el.find("select.cron-yearly-day").append(dayInMonthOpts);  
             });
             
             
@@ -283,6 +270,18 @@
                     text += $selector.find("select.cron-monthly-month option:selected").text();
                     text += "月";
                     text += $selector.find("select.cron-monthly-day option:selected").text();
+                    text += "日";
+                    text += base.$el.find("select.cron-clock-hour option:selected").text();
+                    text += "时";
+                    text += base.$el.find("select.cron-clock-minute option:selected").text();
+                    text += "分";                    
+                    break;                    
+                case '年':
+                    var $selector=base.$el.find("div.cron-yearly");
+                    text += "每年";
+                    text += $selector.find("select.cron-yearly-month option:selected").text();
+                    text += "月";
+                    text += $selector.find("select.cron-yearly-day option:selected").text();
                     text += "日";
                     text += base.$el.find("select.cron-clock-hour option:selected").text();
                     text += "时";
@@ -388,6 +387,14 @@
                 base.$el.find("select.cron-clock-minute").val(crons[1]).trigger("change");                
                 return;
             }
+            if(/\d+/.test(crons[4])){
+                base.$el.find("select.cron-period-select").val('年').trigger("change");
+                base.$el.find("select.cron-yearly-month").val(crons[4]).trigger("change");
+                base.$el.find("select.cron-yearly-day").val(crons[3]).trigger("change");
+                base.$el.find("select.cron-clock-hour").val(crons[2]).trigger("change");
+                base.$el.find("select.cron-clock-minute").val(crons[1]).trigger("change");                
+                return;
+            }
         }
         
         base.getExpression = function() {
@@ -464,16 +471,9 @@
     
                 case '年':
                     var $selector=base.$el.find("div.cron-yearly");
-                    if($selector.find("input[name=yearlyType][value=byDay]").is(":checked")){
-                        dom=$selector.find("select.cron-yearly-day").val();
-                        month=$selector.find("select.cron-yearly-month").val();
-                        dow="?";
-                    } else {
-                        dow=$selector.find("select.cron-yearly-day-of-week").val()
-                            +"#"+$selector.find("select.cron-yearly-nth-day").val();
-                        month=$selector.find("select.cron-yearly-month-by-week").val();
-                        dom="?";
-                    }
+                    dom=$selector.find("select.cron-yearly-day").val();
+                    month=$selector.find("select.cron-yearly-month").val();
+                    dow="?";
                     break;
     
                 default:

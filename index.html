@@ -46,7 +46,7 @@
         <script type="text/javascript">
             $(function() {
                $('#example1-cron').cronBuilder({
-                   cron : "0 0 12 ? * 1",
+                   cron : "0 0 0 10 * ?",
                    onChange: function(expression, text) {
                        $('#example1-result').text(expression + "   " + text);
                    }
