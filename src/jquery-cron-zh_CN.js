@@ -326,23 +326,9 @@
                 base.$el.find("select.cron-hourly-select").val(crons[2].split('/')[1]).trigger("change");
                 return;
             }
-            if(crons[3] == "*"){
+            if(crons[3] == "*" &&　crons[5] == "*"){
                 base.$el.find("select.cron-period-select").val('天').trigger("change");
                 base.$el.find("select.cron-daily-select").val('1').trigger("change");
-                base.$el.find("select.cron-clock-hour").val(crons[2]).trigger("change");
-                base.$el.find("select.cron-clock-minute").val(crons[1]).trigger("change");
-                return;
-            }
-            if(crons[3].split('/').length == 2){
-                base.$el.find("select.cron-period-select").val('天').trigger("change");
-                base.$el.find("select.cron-daily-select").val(crons[3].split('/')[1]).trigger("change");
-                base.$el.find("select.cron-clock-hour").val(crons[2]).trigger("change");
-                base.$el.find("select.cron-clock-minute").val(crons[1]).trigger("change");
-                return;
-            }
-            if(crons[3] == "?" && crons[5] == "*"){
-                base.$el.find("select.cron-period-select").val('周').trigger("change");
-                base.$el.find(".cron-weekly p :checkbox").prop("checked",false);
                 base.$el.find("select.cron-clock-hour").val(crons[2]).trigger("change");
                 base.$el.find("select.cron-clock-minute").val(crons[1]).trigger("change");
                 return;
@@ -367,6 +353,13 @@
                     if(days[i] == '6')
                         base.$el.find(".cron-weekly input[name=dayOfWeekSat]").prop("checked",true);
                 }
+                base.$el.find("select.cron-clock-hour").val(crons[2]).trigger("change");
+                base.$el.find("select.cron-clock-minute").val(crons[1]).trigger("change");
+                return;
+            }
+            if(crons[3].split('/').length == 2){
+                base.$el.find("select.cron-period-select").val('天').trigger("change");
+                base.$el.find("select.cron-daily-select").val(crons[3].split('/')[1]).trigger("change");
                 base.$el.find("select.cron-clock-hour").val(crons[2]).trigger("change");
                 base.$el.find("select.cron-clock-minute").val(crons[1]).trigger("change");
                 return;
